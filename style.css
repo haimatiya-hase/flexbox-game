@@ -167,6 +167,64 @@ h1 em {
   font-size: 0.98rem;
 }
 
+.how-to-play {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  background: rgba(104, 229, 255, 0.04);
+}
+
+.how-to-play .eyebrow {
+  margin-bottom: 8px;
+}
+
+.how-to-play h2 {
+  margin-bottom: 0;
+  color: var(--ink);
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.how-to-steps {
+  display: flex;
+  flex: 1 1 600px;
+  flex-wrap: wrap;
+  gap: 9px;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: how-to-step;
+}
+
+.how-to-steps li {
+  flex: 1 1 170px;
+  min-width: 145px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.how-to-steps li::before {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cyan);
+  content: "0" counter(how-to-step);
+  counter-increment: how-to-step;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.how-to-steps strong {
+  color: var(--ink);
+}
+
 .progress-wrap {
   margin-bottom: 28px;
 }
@@ -261,6 +319,20 @@ h1 em {
   letter-spacing: -0.05em;
 }
 
+.stage-state {
+  margin: -4px 0 22px;
+  color: var(--orange);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stage-state.unlocked,
+.stage-state.completed {
+  color: var(--green);
+}
+
 .instruction {
   min-height: 118px;
   margin-bottom: 28px;
@@ -293,6 +365,7 @@ h1 em {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.73rem;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .tip-card {
@@ -533,8 +606,8 @@ button:disabled {
 }
 
 .next-button {
-  width: 100%;
-  margin-top: 13px;
+  flex: 1;
+  margin-top: 0;
   padding: 14px;
   border: 1px solid rgba(131, 229, 163, 0.42);
   background: rgba(131, 229, 163, 0.1);
@@ -547,6 +620,17 @@ button:disabled {
 .next-button:not(:disabled):hover {
   transform: translateY(-2px);
   background: rgba(131, 229, 163, 0.18);
+}
+
+.stage-navigation {
+  display: flex;
+  align-items: stretch;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.stage-navigation .button-ghost {
+  flex: 0 0 auto;
 }
 
 .footer {
@@ -577,6 +661,11 @@ button:disabled {
 
   .intro-copy {
     max-width: 540px;
+  }
+
+  .how-to-play {
+    align-items: start;
+    flex-direction: column;
   }
 
   .game-panel,
@@ -626,6 +715,10 @@ button:disabled {
   .control-actions,
   .button {
     width: 100%;
+  }
+
+  .stage-navigation {
+    flex-direction: column;
   }
 
   .footer {

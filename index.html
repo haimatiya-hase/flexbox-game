@@ -32,6 +32,19 @@
       </p>
     </section>
 
+    <section class="how-to-play" aria-labelledby="how-to-play-title">
+      <div>
+        <p class="eyebrow">HOW TO PLAY</p>
+        <h2 id="how-to-play-title">Read. Configure. Check.</h2>
+      </div>
+      <ol class="how-to-steps">
+        <li>Read the mission and target values.</li>
+        <li>Choose those values in the Flex controls.</li>
+        <li>Press <strong>Check solution</strong>.</li>
+        <li>A correct answer unlocks the next stage.</li>
+      </ol>
+    </section>
+
     <div class="progress-wrap" aria-label="Mission progress">
       <div class="progress-meta">
         <span id="stage-label">Stage 1 of 6</span>
@@ -44,9 +57,10 @@
       <aside class="briefing-panel" aria-labelledby="briefing-title">
         <div class="panel-kicker"><span>MISSION BRIEFING</span><span id="briefing-index">01</span></div>
         <h2 id="briefing-title">Satellite Parade</h2>
+        <p id="stage-state" class="stage-state">Current stage · solve it to unlock the next one.</p>
         <p id="instruction" class="instruction"></p>
         <div class="target-card">
-          <p class="target-label">TARGET FORMATION</p>
+          <p class="target-label">SET THE CONTROLS TO</p>
           <p id="target-summary" class="target-summary"></p>
         </div>
         <div class="tip-card">
@@ -130,7 +144,10 @@
             <button id="check-button" class="button button-primary" type="submit">Check solution <span aria-hidden="true">→</span></button>
           </div>
           <div id="feedback" class="feedback" role="status" aria-live="polite">Choose your settings and check the formation.</div>
-          <button id="next-button" class="next-button" type="button" disabled>Next stage <span aria-hidden="true">→</span></button>
+          <div class="stage-navigation" aria-label="Stage navigation">
+            <button id="previous-button" class="button button-ghost" type="button" disabled><span aria-hidden="true">←</span> Previous stage</button>
+            <button id="next-button" class="next-button" type="button" disabled>Next stage <span aria-hidden="true">→</span></button>
+          </div>
         </form>
       </section>
     </div>

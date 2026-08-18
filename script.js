@@ -170,18 +170,34 @@ const stageLabel = document.querySelector("#stage-label");
 const stageName = document.querySelector("#stage-name");
 const briefingIndex = document.querySelector("#briefing-index");
 const briefingTitle = document.querySelector("#briefing-title");
+const stageState = document.querySelector("#stage-state");
 const instruction = document.querySelector("#instruction");
 const targetSummary = document.querySelector("#target-summary");
 const tipText = document.querySelector("#tip-text");
 const progressBar = document.querySelector("#progress-bar");
 const scoreValue = document.querySelector("#score-value");
 const attemptsValue = document.querySelector("#attempts-value");
+const previousButton = document.querySelector("#previous-button");
 
 let currentLevel = 0;
 let totalAttempts = 0;
 let levelAttempts = 0;
 let score = 0;
 let levelSolved = false;
+let unlockedLevel = 0;
+let completedLevels = levels.map(() => false);
+let levelAttemptsByLevel = levels.map(() => 0);
+let levelValues = levels.map((level) => ({ ...level.defaults }));
+
+function formatTargetValues(target) {
+  return [
+    `flex-direction: ${target.flexDirection}`,
+    `justify-content: ${target.justifyContent}`,
+    `align-items: ${target.alignItems}`,
+    `flex-wrap: ${target.flexWrap}`,
+    `align-content: ${target.alignContent}`
+  ].join("\n");
+}
 
 function setControlValues(values) {
   controls.forEach((control) => {
@@ -241,22 +257,47 @@ function updateProgress() {
   attemptsValue.textContent = String(totalAttempts);
 }
 
+function updateNavigation() {
+  const stageCompleted = completedLevels[currentLevel];
+  const nextStageUnlocked = currentLevel < unlockedLevel;
+  const canGoForward = stageCompleted || nextStageUnlocked;
+
+  previousButton.disabled = currentLevel === 0;
+  nextButton.disabled = !canGoForward;
+  nextButton.textContent = canGoForward
+    ? (currentLevel === levels.length - 1 ? "Complete mission" : "Next stage →")
+    : "Locked · solve stage first";
+
+  stageState.className = "stage-state";
+  if (stageCompleted) {
+    stageState.classList.add("completed");
+    stageState.textContent = currentLevel === levels.length - 1
+      ? "Completed · mission ready to finish."
+      : "Completed · next stage unlocked."
+  } else {
+    stageState.textContent = "Next stage locked · solve this challenge to continue.";
+  }
+}
+
 function renderLevel() {
   const level = levels[currentLevel];
   stageName.textContent = level.name;
   briefingTitle.textContent = level.name;
   instruction.textContent = level.instruction;
-  targetSummary.textContent = level.summary;
+  targetSummary.textContent = formatTargetValues(level.target);
   tipText.textContent = level.tip;
   createBoardItems(level.items);
-  setControlValues(level.defaults);
+  setControlValues(levelValues[currentLevel]);
   applyFlexboxValues();
-  levelAttempts = 0;
-  levelSolved = false;
-  nextButton.disabled = true;
-  nextButton.textContent = currentLevel === levels.length - 1 ? "Complete mission" : "Next stage →";
-  setFeedback("Choose your settings and check the formation.");
+  levelAttempts = levelAttemptsByLevel[currentLevel];
+  levelSolved = completedLevels[currentLevel];
+  setFeedback(
+    levelSolved
+      ? "This stage is complete. You can replay it or move between unlocked stages."
+      : "Match all five target values, then press Check solution."
+  );
   updateProgress();
+  updateNavigation();
 }
 
 function isSolutionCorrect() {
@@ -268,40 +309,51 @@ function isSolutionCorrect() {
 function checkSolution() {
   totalAttempts += 1;
   levelAttempts += 1;
+  levelAttemptsByLevel[currentLevel] = levelAttempts;
   updateProgress();
 
   if (isSolutionCorrect()) {
     const stageScore = Math.max(100, 300 - ((levelAttempts - 1) * 25));
-    const alreadySolved = levelSolved;
-    if (!levelSolved) {
+    const alreadyCompleted = completedLevels[currentLevel];
+    if (!alreadyCompleted) {
       score += stageScore;
-      levelSolved = true;
+      completedLevels[currentLevel] = true;
+      if (currentLevel === unlockedLevel && currentLevel < levels.length - 1) {
+        unlockedLevel += 1;
+      }
     }
+    levelSolved = true;
     updateProgress();
-    nextButton.disabled = false;
+    updateNavigation();
     setFeedback(
-      alreadySolved
-        ? "Formation locked. You can continue to the next stage."
+      alreadyCompleted
+        ? "Formation correct. This stage was already completed, so its progress is preserved."
         : `Formation locked. +${stageScore} points. You can continue to the next stage.`,
       "success"
     );
     return;
   }
 
-  nextButton.disabled = true;
+  updateNavigation();
   setFeedback("Not quite yet. Read the briefing, adjust the controls, and try again.", "error");
 }
 
 function resetLevel() {
-  setControlValues(levels[currentLevel].defaults);
+  levelValues[currentLevel] = { ...levels[currentLevel].defaults };
+  setControlValues(levelValues[currentLevel]);
   applyFlexboxValues();
   levelSolved = false;
-  nextButton.disabled = true;
-  setFeedback("Stage reset. Try a different combination.");
+  updateNavigation();
+  setFeedback(
+    completedLevels[currentLevel]
+      ? "Stage reset. Your previous completion is preserved."
+      : "Stage reset. Match all five target values and check again."
+  );
 }
 
 function goToNextLevel() {
-  if (nextButton.disabled) {
+  const canGoForward = completedLevels[currentLevel] || currentLevel < unlockedLevel;
+  if (!canGoForward) {
     return;
   }
 
@@ -315,11 +367,21 @@ function goToNextLevel() {
   renderLevel();
 }
 
+function goToPreviousLevel() {
+  if (currentLevel === 0) {
+    return;
+  }
+
+  currentLevel -= 1;
+  renderLevel();
+}
+
 controls.forEach((control) => {
   control.addEventListener("change", () => {
     applyFlexboxValues();
-    levelSolved = false;
-    nextButton.disabled = true;
+    levelValues[currentLevel] = getControlValues();
+    levelSolved = isSolutionCorrect();
+    updateNavigation();
     setFeedback("Change applied. Check the formation when you are ready.");
   });
 });
@@ -331,5 +393,6 @@ controlsForm.addEventListener("submit", (event) => {
 
 resetButton.addEventListener("click", resetLevel);
 nextButton.addEventListener("click", goToNextLevel);
+previousButton.addEventListener("click", goToPreviousLevel);
 
 renderLevel();
