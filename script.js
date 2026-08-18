@@ -178,6 +178,12 @@ const progressBar = document.querySelector("#progress-bar");
 const scoreValue = document.querySelector("#score-value");
 const attemptsValue = document.querySelector("#attempts-value");
 const previousButton = document.querySelector("#previous-button");
+const completionOverlay = document.querySelector("#completion-overlay");
+const completionClose = document.querySelector("#completion-close");
+const completionCloseSecondary = document.querySelector("#completion-close-secondary");
+const reviewButton = document.querySelector("#review-button");
+const finalScore = document.querySelector("#final-score");
+const completedCount = document.querySelector("#completed-count");
 
 let currentLevel = 0;
 let totalAttempts = 0;
@@ -279,6 +285,19 @@ function updateNavigation() {
   }
 }
 
+function showCompletion() {
+  finalScore.textContent = String(score).padStart(4, "0");
+  completedCount.textContent = `${completedLevels.filter(Boolean).length} / ${levels.length}`;
+  completionOverlay.hidden = false;
+  document.body.classList.add("completion-open");
+  completionClose.focus();
+}
+
+function hideCompletion() {
+  completionOverlay.hidden = true;
+  document.body.classList.remove("completion-open");
+}
+
 function renderLevel() {
   const level = levels[currentLevel];
   stageName.textContent = level.name;
@@ -360,6 +379,7 @@ function goToNextLevel() {
   if (currentLevel === levels.length - 1) {
     nextButton.disabled = true;
     setFeedback(`Mission complete. Final score: ${score} points.`, "success");
+    showCompletion();
     return;
   }
 
@@ -394,5 +414,19 @@ controlsForm.addEventListener("submit", (event) => {
 resetButton.addEventListener("click", resetLevel);
 nextButton.addEventListener("click", goToNextLevel);
 previousButton.addEventListener("click", goToPreviousLevel);
+completionClose.addEventListener("click", hideCompletion);
+completionCloseSecondary.addEventListener("click", hideCompletion);
+reviewButton.addEventListener("click", () => {
+  hideCompletion();
+  currentLevel = 0;
+  renderLevel();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !completionOverlay.hidden) {
+    hideCompletion();
+  }
+});
 
 renderLevel();

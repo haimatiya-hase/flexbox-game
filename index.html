@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="FlexLab - a game for learning CSS Flexbox">
   <title>FlexLab | Learn Flexbox by Playing</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
   <header class="topbar">
@@ -153,11 +153,43 @@
     </div>
   </main>
 
+  <section id="completion-overlay" class="completion-overlay" role="dialog" aria-modal="true" aria-labelledby="completion-title" hidden>
+    <div class="completion-backdrop"></div>
+    <div class="completion-card">
+      <button id="completion-close" class="completion-close" type="button" aria-label="Close mission complete message">×</button>
+      <div class="celebration-art" aria-hidden="true">
+        <span class="celebration-orbit orbit-one"></span>
+        <span class="celebration-orbit orbit-two"></span>
+        <span class="celebration-orbit orbit-three"></span>
+        <span class="celebration-core">✦</span>
+        <span class="confetti confetti-one"></span>
+        <span class="confetti confetti-two"></span>
+        <span class="confetti confetti-three"></span>
+        <span class="confetti confetti-four"></span>
+        <span class="confetti confetti-five"></span>
+        <span class="confetti confetti-six"></span>
+        <span class="confetti confetti-seven"></span>
+        <span class="confetti confetti-eight"></span>
+      </div>
+      <p class="completion-kicker">ALL SYSTEMS ONLINE / 06 OF 06</p>
+      <h2 id="completion-title">Fleet docked.<br><em>Mission complete.</em></h2>
+      <p class="completion-copy">You guided every formation into place and mastered the station's Flexbox controls.</p>
+      <div class="completion-stats">
+        <div><span>Final score</span><strong id="final-score">0000</strong></div>
+        <div><span>Stages cleared</span><strong id="completed-count">6 / 6</strong></div>
+      </div>
+      <div class="completion-actions">
+        <button id="review-button" class="button button-primary" type="button">Review stages</button>
+        <button id="completion-close-secondary" class="button button-ghost" type="button">Keep exploring</button>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <span>FlexLab / HTML + CSS + JavaScript</span>
     <span>No grids. Just flex.</span>
   </footer>
 
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
