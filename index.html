@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FlexLab - a game for learning CSS Flexbox">
+  <title>FlexLab | Learn Flexbox by Playing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="#top" aria-label="FlexLab home">FLEX<span>✦</span>LAB</a>
+    <div class="mission-status" aria-label="Game status">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span>Training mission</span>
+    </div>
+    <div class="topbar-stats">
+      <span>Score <strong id="score-value">0000</strong></span>
+      <span>Attempts <strong id="attempts-value">0</strong></span>
+    </div>
+  </header>
+
+  <main class="page-shell" id="top">
+    <section class="intro" aria-labelledby="game-title">
+      <div>
+        <p class="eyebrow">CSS LAYOUT TRAINING / 01</p>
+        <h1 id="game-title">Dock the fleet<br><em>with Flexbox.</em></h1>
+      </div>
+      <p class="intro-copy">
+        Control the station's layout systems and guide every space object into the formation shown in the mission briefing.
+        Choose the right Flexbox properties, check your solution, and unlock the next stage.
+      </p>
+    </section>
+
+    <div class="progress-wrap" aria-label="Mission progress">
+      <div class="progress-meta">
+        <span id="stage-label">Stage 1 of 6</span>
+        <span id="stage-name">Satellite Parade</span>
+      </div>
+      <div class="progress-track"><span id="progress-bar"></span></div>
+    </div>
+
+    <div class="game-layout">
+      <aside class="briefing-panel" aria-labelledby="briefing-title">
+        <div class="panel-kicker"><span>MISSION BRIEFING</span><span id="briefing-index">01</span></div>
+        <h2 id="briefing-title">Satellite Parade</h2>
+        <p id="instruction" class="instruction"></p>
+        <div class="target-card">
+          <p class="target-label">TARGET FORMATION</p>
+          <p id="target-summary" class="target-summary"></p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">?</span>
+          <p id="tip-text"></p>
+        </div>
+      </aside>
+
+      <section class="game-panel" aria-labelledby="board-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">LIVE PLAYGROUND</p>
+            <h2 id="board-title">Arrange the objects</h2>
+          </div>
+          <span class="board-size">560 × 360</span>
+        </div>
+
+        <div class="board-frame">
+          <div id="game-board" class="game-board" role="list" aria-label="Flexbox game board"></div>
+        </div>
+
+        <form id="controls" class="controls" aria-labelledby="controls-title">
+          <div class="controls-heading">
+            <h3 id="controls-title">Flex controls</h3>
+            <span>Change the layout, then check.</span>
+          </div>
+          <div class="control-list">
+            <label class="control-field">
+              <span>flex-direction</span>
+              <select data-control="flexDirection">
+                <option value="row">row</option>
+                <option value="row-reverse">row-reverse</option>
+                <option value="column">column</option>
+                <option value="column-reverse">column-reverse</option>
+              </select>
+            </label>
+            <label class="control-field">
+              <span>justify-content</span>
+              <select data-control="justifyContent">
+                <option value="flex-start">flex-start</option>
+                <option value="center">center</option>
+                <option value="flex-end">flex-end</option>
+                <option value="space-between">space-between</option>
+                <option value="space-around">space-around</option>
+                <option value="space-evenly">space-evenly</option>
+              </select>
+            </label>
+            <label class="control-field">
+              <span>align-items</span>
+              <select data-control="alignItems">
+                <option value="stretch">stretch</option>
+                <option value="flex-start">flex-start</option>
+                <option value="center">center</option>
+                <option value="flex-end">flex-end</option>
+                <option value="baseline">baseline</option>
+              </select>
+            </label>
+            <label class="control-field">
+              <span>flex-wrap</span>
+              <select data-control="flexWrap">
+                <option value="nowrap">nowrap</option>
+                <option value="wrap">wrap</option>
+                <option value="wrap-reverse">wrap-reverse</option>
+              </select>
+            </label>
+            <label class="control-field">
+              <span>align-content</span>
+              <select data-control="alignContent">
+                <option value="stretch">stretch</option>
+                <option value="flex-start">flex-start</option>
+                <option value="center">center</option>
+                <option value="flex-end">flex-end</option>
+                <option value="space-between">space-between</option>
+                <option value="space-around">space-around</option>
+                <option value="space-evenly">space-evenly</option>
+              </select>
+            </label>
+          </div>
+          <div class="control-actions">
+            <button id="reset-button" class="button button-ghost" type="button">↺ Reset stage</button>
+            <button id="check-button" class="button button-primary" type="submit">Check solution <span aria-hidden="true">→</span></button>
+          </div>
+          <div id="feedback" class="feedback" role="status" aria-live="polite">Choose your settings and check the formation.</div>
+          <button id="next-button" class="next-button" type="button" disabled>Next stage <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>FlexLab / HTML + CSS + JavaScript</span>
+    <span>No grids. Just flex.</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
