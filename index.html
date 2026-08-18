@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="FlexLab - a game for learning CSS Flexbox">
   <title>FlexLab | Learn Flexbox by Playing</title>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <header class="topbar">
@@ -58,15 +58,27 @@
         <div class="panel-kicker"><span>MISSION BRIEFING</span><span id="briefing-index">01</span></div>
         <h2 id="briefing-title">Satellite Parade</h2>
         <p id="stage-state" class="stage-state">Current stage · solve it to unlock the next one.</p>
-        <p id="instruction" class="instruction"></p>
-        <div class="target-card">
-          <p class="target-label">SET THE CONTROLS TO</p>
-          <p id="target-summary" class="target-summary"></p>
+        <div class="mission-goal">
+          <span class="goal-marker" aria-hidden="true">✦</span>
+          <div>
+            <p class="goal-label">MISSION GOAL</p>
+            <p id="instruction" class="instruction"></p>
+          </div>
         </div>
         <div class="tip-card">
           <span class="tip-icon" aria-hidden="true">?</span>
           <p id="tip-text"></p>
         </div>
+        <details class="target-card target-details">
+          <summary class="target-summary-toggle">
+            <span>Show target values</span>
+            <small>Optional hint</small>
+          </summary>
+          <div class="target-details-body">
+            <p class="target-label">MATCH THESE CONTROLS</p>
+            <p id="target-summary" class="target-summary"></p>
+          </div>
+        </details>
       </aside>
 
       <section class="game-panel" aria-labelledby="board-title">
@@ -190,6 +202,6 @@
     <span>No grids. Just flex.</span>
   </footer>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
